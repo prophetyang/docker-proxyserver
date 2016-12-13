@@ -49,3 +49,17 @@ user1 1234
 OK
 ````
 
+## Build docker image on you own
+```
+docker build -t image_name .
+```
+
+## Pull pre-built docker image
+```
+docker pull prophetyang/proxy-server
+```
+
+## Run docker container
+```
+docker run -it prophetyang/proxy-server
+```
