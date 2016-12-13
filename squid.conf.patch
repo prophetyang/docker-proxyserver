@@ -1,25 +1,34 @@
---- squid.conf.orig	2016-12-12 13:49:06.833035100 +0800
-+++ squid.conf	2016-12-12 16:16:04.343035102 +0800
+--- squid.conf.default  2016-08-04 11:56:05.000000000 +0000
++++ squid.conf  2016-12-13 02:13:33.124035100 +0000
 @@ -4,6 +4,7 @@
  acl manager proto cache_object
  acl localhost src 127.0.0.1/32 ::1
  acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
 +acl docker_net src 172.17.0.0/16
- 
+
  # Example rule allowing access from your local networks.
  # Adapt to list your (internal) IP networks from where browsing
-@@ -55,6 +56,14 @@ http_access deny CONNECT !SSL_ports
- http_access allow localnet
- http_access allow localhost
- 
+@@ -52,8 +53,20 @@ http_access deny CONNECT !SSL_ports
+ # Example rule allowing access from your local networks.
+ # Adapt localnet in the ACL section to list your (internal) IP networks
+ # from where browsing should be allowed
+-http_access allow localnet
+-http_access allow localhost
++#http_access allow localnet
++#http_access allow localhost
++
 +# Example rule allowing acess from docker networks.
 +http_access allow docker_net
 +
 +# Example rule allowing access from passwd authentication
 +#auth_param basic program /usr/lib64/squid/ncsa_auth /etc/squid/squid.passwd
++#auth_param basic children 5
++#auth_param basic realm Squid proxy-caching web server
++#auth_param basic credentialsttl 2 hours
++#auth_param basic casesensitive off
 +#acl proxy_users proxy_auth REQUIRED
 +#http_access allow proxy_users
-+
+
  # And finally deny all other access to this proxy
  http_access deny all
  
